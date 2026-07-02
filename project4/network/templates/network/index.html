@@ -5,7 +5,17 @@
     <form action="{% url 'index' %}" method="post">
         {% csrf_token %}
         {{ new_post_form }}
-        <input class="btn btn-secondary" type="button" type="submit" value="Post">
+        <button class="btn btn-outline-secondary">Post</button>
     </form>
+
+    <ul>
+        {% if posts %}
+            {% for post in posts %}
+                <li>{{ post }}</li>
+            {% endfor %}
+        {% else %}
+            <li>No posts available</li>
+        {% endif %}
+    </ul>
 
 {% endblock %}

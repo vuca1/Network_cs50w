@@ -8,11 +8,6 @@ from django import forms
 from .models import User, Post
 
 class NewPostForm(forms.Form):
-    title = forms.CharField(
-        label="Title",
-        required=True,
-        max_length=50
-    )
     content = forms.CharField(
         label="Content",
         required=True,
@@ -24,23 +19,24 @@ def index(request):
     if request.method == "POST":    
         new_post = NewPostForm(request.POST)
         if new_post.is_valid():
-            title = new_post.cleaned_data["title"]
-            content = new_post.cleaned["content"]
+            content = new_post.cleaned_data["content"]
         else:
             return render(request, "network/index.html",{
-                "new_post_form": new_post
+                "new_post_form": new_post,
+                "posts": Post.objects.all().order_by("timestamp")
             })
         
         new_post = Post(
-            title=title,
-            content=content
+            content=content,
+            author = request.user
         )
         new_post.save()
 
         return redirect("index")
 
     return render(request, "network/index.html", {
-        "new_post_form": NewPostForm()
+        "new_post_form": NewPostForm(),
+        "posts": Post.objects.all().order_by("timestamp")
     })
 
 
