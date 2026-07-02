@@ -1,3 +1,8 @@
 project4/project4/__pycache__/wsgi.cpython-313.pyc
 project4/network/migrations/__pycache__/0001_initial.cpython-313.pyc
 project4/network/migrations/__pycache__/__init__.cpython-313.pyc
+project4/network/views.py
+project4/network/__pycache__/views.cpython-313.pyc
+project4/network/__pycache__/models.cpython-313.pyc
+project4/network/__pycache__/views.cpython-313.pyc
+project4/network/__pycache__/models.cpython-313.pyc

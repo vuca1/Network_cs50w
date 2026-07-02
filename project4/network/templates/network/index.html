@@ -1,5 +1,11 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        {{ new_post_form }}
+        <input class="btn btn-secondary" type="button" type="submit" value="Post">
+    </form>
+
 {% endblock %}
