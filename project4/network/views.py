@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -16,28 +17,30 @@ class NewPostForm(forms.Form):
     )
 
 def index(request):
-    if request.method == "POST":    
+    return render(request, "network/index.html", {
+        "new_post_form": NewPostForm(),
+        "posts": Post.objects.all().order_by("timestamp")
+    })
+
+@login_required
+def create_post(request):
+    if request.method == "post":
         new_post = NewPostForm(request.POST)
         if new_post.is_valid():
             content = new_post.cleaned_data["content"]
         else:
-            return render(request, "network/index.html",{
-                "new_post_form": new_post,
+            return render(request, "network/index.html", {
+                "new_post_form": NewPostForm(),
                 "posts": Post.objects.all().order_by("timestamp")
             })
         
         new_post = Post(
             content=content,
-            author = request.user
+            author=request.user
         )
         new_post.save()
 
-        return redirect("index")
-
-    return render(request, "network/index.html", {
-        "new_post_form": NewPostForm(),
-        "posts": Post.objects.all().order_by("timestamp")
-    })
+        return redirect(index)
 
 
 

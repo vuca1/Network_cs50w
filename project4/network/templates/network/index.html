@@ -1,21 +1,41 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    
-    <form action="{% url 'index' %}" method="post">
-        {% csrf_token %}
-        {{ new_post_form }}
-        <button class="btn btn-outline-secondary">Post</button>
-    </form>
+    {% if user.is_authenticated %}
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <form action="{% url 'index' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ new_post_form.content }}
+                    </div>
+                    <button class="btn btn-outline-secondary">Post</button>
+                </form>
+                <hr>
+            </div>
+        </div>
+    {% endif %}
 
-    <ul>
+    <div class="container">
         {% if posts %}
             {% for post in posts %}
-                <li>{{ post }}</li>
+                <div class="row align-items-center">
+                    <div class="col-8 align-middle">
+                        {{ post.content }}
+                    </div>
+                    <div class="col-2 align-middle">
+                        {{ post.author }}
+                        <br>
+                        {{ post.timestamp }}
+                    </div>
+                    <div class="col align-middle">
+                        &#127833 {{ post.likes_count }}
+                    </div>
+                </div>
             {% endfor %}
         {% else %}
-            <li>No posts available</li>
+                no posts
         {% endif %}
-    </ul>
+    </div>
 
 {% endblock %}
