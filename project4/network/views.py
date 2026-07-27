@@ -19,28 +19,31 @@ class NewPostForm(forms.Form):
 def index(request):
     return render(request, "network/index.html", {
         "new_post_form": NewPostForm(),
-        "posts": Post.objects.all().order_by("timestamp")
+        "posts": Post.objects.all().order_by("-timestamp")
     })
 
 @login_required
 def create_post(request):
-    if request.method == "post":
+    if request.method == "POST":
         new_post = NewPostForm(request.POST)
+
+        # check form input validity
         if new_post.is_valid():
             content = new_post.cleaned_data["content"]
         else:
             return render(request, "network/index.html", {
                 "new_post_form": NewPostForm(),
-                "posts": Post.objects.all().order_by("timestamp")
+                "posts": Post.objects.order_by("-timestamp").all()
             })
-        
+
+        # create new 'Post' and save it
         new_post = Post(
             content=content,
             author=request.user
         )
         new_post.save()
 
-        return redirect(index)
+    return redirect("index")
 
 
 

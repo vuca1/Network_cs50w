@@ -10,3 +10,8 @@ project4/network/migrations/__pycache__/0002_user_following_post_user_liked_post
 project4/network/__pycache__/views.cpython-313.pyc
 project4/network/__pycache__/models.cpython-313.pyc
 project4/network/__pycache__/views.cpython-313.pyc
+project4/db.sqlite3
+project4/network/__pycache__/views.cpython-313.pyc
+project4/network/__pycache__/urls.cpython-313.pyc
+project4/network/__pycache__/admin.cpython-313.pyc
+project4/db.sqlite3
