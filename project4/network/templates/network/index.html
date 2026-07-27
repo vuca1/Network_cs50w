@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="row justify-content-center">
+        <div class="row justify-content-center m-3">
             <div class="col-md-5">
                 <form action="{% url 'create_post' %}" method="post">
                     {% csrf_token %}
@@ -11,14 +11,13 @@
                     </div>
                     <button class="btn btn-outline-secondary">Post</button>
                 </form>
-                <hr>
             </div>
         </div>
     {% endif %}
 
+    <hr>
 
-
-    <div>
+    <div class="m-2">
         {% for post in posts %}
             {% include "network/includes/post.html" with post=post link=True %}
         {% empty %}

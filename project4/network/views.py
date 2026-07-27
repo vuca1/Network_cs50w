@@ -13,7 +13,9 @@ class NewPostForm(forms.Form):
         label="Content",
         required=True,
         max_length=500,
-        widget=forms.Textarea
+        widget=forms.Textarea(attrs={
+            "rows": 5
+        })
     )
 
 def index(request):
