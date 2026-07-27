@@ -24,7 +24,7 @@
                         {{ post.content }}
                     </div>
                     <div class="col-2 align-middle">
-                        {{ post.author }}
+                        <a href="{% url 'user' post.author.id %}">{{ post.author }}</a>
                         <br>
                         {{ post.timestamp }}
                     </div>

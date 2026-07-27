@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django import forms
 
@@ -45,6 +45,14 @@ def create_post(request):
 
     return redirect("index")
 
+
+def user(request, user_id):
+    # TODO - create user's profile page
+    user = get_object_or_404(User, id=user_id)
+
+    return render(request, "network/user.html", {
+        "user": user
+    })
 
 
 def login_view(request):
