@@ -1,5 +1,35 @@
 {% extends 'network/layout.html' %}
 
 {% block body %}
-    <p>Hello {{ user.username }}</p>
+    
+    <div class="container m-3">
+        <div class="row">
+            <div class="col">
+                <b>{{ user.username }}</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                You have <b>{{ user.followers_count }}</b> followers.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                You're following <b>{{ user.following_count }}</b> users.
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h4 class="text-center">Posts</h4>
+
+    <div>
+        {% for post in posts %}
+            {% include 'network/includes/post.html' with post=post link=False %}
+        {% empty %}
+            <p>No posts</p>
+        {% endfor %}
+    </div>
+
 {% endblock %}

@@ -1,0 +1,12 @@
+<div class="card m-3">
+    <div class="card-body">
+        {% if link %}
+            <a href="{% url 'user' post.author.id %}"><h5>{{ post.author }}</h5></a>
+        {% else %}
+            <h5>{{ post.author }}</h5>
+        {% endif %}
+        <p>{{ post.content }}</p>
+        <small class="text-muted">{{ post.timestamp }}</small>
+        <p>&#127833 {{ post.likes_count }}</p>
+    </div>
+</div>

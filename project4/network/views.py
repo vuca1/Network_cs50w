@@ -51,7 +51,8 @@ def user(request, user_id):
     user = get_object_or_404(User, id=user_id)
 
     return render(request, "network/user.html", {
-        "user": user
+        "user": user,
+        "posts": Post.objects.filter(author=user_id).order_by("-timestamp")
     })
 
 
