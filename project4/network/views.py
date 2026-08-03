@@ -49,13 +49,34 @@ def create_post(request):
 
 
 def user(request, user_id):
-    # TODO - create user's profile page
     user = get_object_or_404(User, id=user_id)
-
+    is_following = request.user.following.filter(pk=user.pk).exists()
+    
     return render(request, "network/user.html", {
         "user": user,
-        "posts": Post.objects.filter(author=user_id).order_by("-timestamp")
+        "posts": Post.objects.filter(author=user_id).order_by("-timestamp"),
+        "is_following": is_following  
     })
+
+
+def toggle_follow(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+
+        if user_id is None:
+            return redirect("index")
+
+        user = get_object_or_404(User, pk=user_id)
+
+        if user == request.user:
+            return redirect("index")
+
+        if request.user.following.filter(pk=user.pk).exists():
+            request.user.following.remove(user)
+        else:
+            request.user.following.add(user)
+
+        return redirect("user", user=user)
 
 
 def login_view(request):
