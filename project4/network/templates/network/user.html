@@ -20,11 +20,12 @@
         </div>
         <div class="row">
             <div class="col">
-                {% if not request.user.username == profile_user.username %}
-                    <form action="">
+                {% if not request.user.username == user_profile.username %}
+                    <form action="{% url 'toggle_follow' %}" method="post">
+                        {% csrf_token %}
                         <input type="text" hidden name="user_id" value="{{ user_profile.id }}">
                         {% if is_following %}
-                            <input type="submit" value="Unfollow">
+                            <input class="btn btn-outline-secondary" type="submit" value="Unfollow">
                         {% else %}
                             <input class="btn btn-outline-secondary" type="submit" value="Follow">
                         {% endif %}
