@@ -1,7 +1,7 @@
 <div class="card m-3">
     <div class="card-body">
         {% if link %}
-            <a href="{% url 'user' post.author.id %}"><h5>{{ post.author }}</h5></a>
+            <a href="{% url 'user_profile' post.author.id %}"><h5>{{ post.author }}</h5></a>
         {% else %}
             <h5>{{ post.author }}</h5>
         {% endif %}

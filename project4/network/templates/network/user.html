@@ -5,24 +5,24 @@
     <div class="container m-3">
         <div class="row">
             <div class="col">
-                <b>{{ user.username }}</b>
+                <b>{{ user_profile.username }}</b>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                Followers <b>{{ user.followers_count }}</b>
+                Followers <b>{{ user_profile.followers_count }}</b>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                Following <b>{{ user.following_count }}</b>
+                Following <b>{{ user_profile.following_count }}</b>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                {% if not request.user.username == user.username %}
+                {% if not request.user.username == profile_user.username %}
                     <form action="">
-                        <input type="text" hidden name="user_id" value="{{ user.id }}">
+                        <input type="text" hidden name="user_id" value="{{ user_profile.id }}">
                         {% if is_following %}
                             <input type="submit" value="Unfollow">
                         {% else %}

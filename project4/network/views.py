@@ -48,12 +48,12 @@ def create_post(request):
     return redirect("index")
 
 
-def user(request, user_id):
+def user_profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
     is_following = request.user.following.filter(pk=user.pk).exists()
     
-    return render(request, "network/user.html", {
-        "user": user,
+    return render(request, "network/user_profile.html", {
+        "user_profile": user,
         "posts": Post.objects.filter(author=user_id).order_by("-timestamp"),
         "is_following": is_following  
     })
@@ -76,7 +76,7 @@ def toggle_follow(request):
         else:
             request.user.following.add(user)
 
-        return redirect("user", user=user)
+        return redirect("user_profile", user=user)
 
 
 def login_view(request):
