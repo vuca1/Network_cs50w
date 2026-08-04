@@ -40,11 +40,13 @@
     <h4 class="text-center">Posts</h4>
 
     <div>
-        {% for post in posts %}
+        {% for post in page_obj %}
             {% include 'network/includes/post.html' with post=post link=False %}
         {% empty %}
             <p>No posts</p>
         {% endfor %}
     </div>
+
+    {% include "network/includes/pagination.html" with page_obj=page_obj %}
 
 {% endblock %}
