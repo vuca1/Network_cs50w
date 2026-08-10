@@ -22,7 +22,7 @@ class NewPostForm(forms.Form):
 
 POSTS_PER_PAGE = 10
 
-# TODO: adapt pagenation for every "post" page
+
 def index(request):
     # divide to pages
     p = Paginator(
@@ -43,7 +43,10 @@ def user_profile(request, user_id):
     # get user by 'user_id'
     user = get_object_or_404(User, id=user_id)
     # check whether 'request.user' follows 'user_profile'
-    is_following = request.user.following.filter(pk=user.pk).exists()
+    if request.user.is_authenticated:
+        is_following = request.user.following.filter(pk=user.pk).exists()
+    else:
+        is_following = False
 
     # divide to pages
     p = Paginator(

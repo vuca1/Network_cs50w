@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col">
-                {% if not request.user.username == user_profile.username %}
+                {% if not request.user.username == user_profile.username and request.user.is_authenticated %}
                     <form action="{% url 'toggle_follow' %}" method="post">
                         {% csrf_token %}
                         <input type="text" hidden name="user_id" value="{{ user_profile.id }}">
