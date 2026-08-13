@@ -215,11 +215,19 @@ def toggle_follow(request):
 @login_required
 def following(request):
     # render main page but only with posts from following users
+
+    # divide to pages
+    p = Paginator(
+        Post.objects.filter(author__in=request.user.following.all()).order_by("-timestamp"),
+        POSTS_PER_PAGE
+    )
+
+    page_number = request.GET.get("page") if request.GET.get("page") else 1
+    page_obj = p.get_page(page_number) # get_page checks valid input
+
     return render(request, "network/index.html", {
         "new_post_form": NewPostForm(),
-        "posts": Post.objects
-                    .filter(author__in=request.user.following.all())
-                    .order_by("-timestamp")
+        "page_obj": page_obj
     })
 
 
