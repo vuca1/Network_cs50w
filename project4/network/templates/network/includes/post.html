@@ -7,36 +7,21 @@
             <h5>{{ post.author }}</h5>
         {% endif %}
 
-        <p  id="post-content-{{ post.id }}">{{ post.content }}</p>
+        <p id="post-content-{{ post.id }}">{{ post.content }}</p>
+
+        <textarea id="text-area-{{ post.id }}" hidden>{{ post.content }}</textarea>
 
         <small class="text-muted">{{ post.timestamp }}</small>
 
         <p>&#127833 {{ post.likes_count }}</p>
 
         {% if request.user == post.author %}
-            <button class="btn btn-outline-secondary edit-button" data-post-id="{{ post.id }}">
+            <button
+                type="button"
+                class="btn btn-outline-secondary edit-button"
+                data-post-id="{{ post.id }}">
                 Edit
             </button>
         {% endif %}
     </div>
 </div>
-
-<script>
-    // TODO
-
-    document.addEventListener('DOMContentLoaded', function() {
-
-        document.addEventListener('click', event => {
-            const element = event.target;
-            element;
-        });
-
-        document.querySelectorAll('.edit-button').forEach(button => {
-
-        });
-    });
-
-    // https://github.com/vuca1/CS50W-JS_lecture/blob/main/tasks.html
-    // for form submit and button enabling
-
-</script>

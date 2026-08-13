@@ -2,10 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django import forms
+
+import json
 
 from .models import User, Post
 
@@ -61,6 +63,28 @@ def user_profile(request, user_id):
         "user_profile": user,
         "page_obj": page_obj,
         "is_following": is_following  
+    })
+
+@login_required
+def edit_post(request, post_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        content = data["content"]
+
+        post = get_object_or_404(Post, id=post_id)
+
+        # check if user owns the edited post and if text isn't empty
+        if not request.user == post.author or len(content) <= 0:
+            return JsonResponse({
+                "success": False
+            })
+
+        # change post content in DB
+        post.content = content
+        post.save()
+
+    return JsonResponse({
+        "success": True
     })
 
 
