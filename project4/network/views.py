@@ -95,10 +95,6 @@ def like(request, post_id):
 
         post = get_object_or_404(Post, id=post_id)
 
-        # like emojis
-        PRESSED = "&#127832"
-        NOT_PRESSED = "&#127833"
-
         # like pressed
         if like:
             likes = post.likes_count
@@ -107,8 +103,8 @@ def like(request, post_id):
                 return JsonResponse({
                     "success": True,
                     "likes": likes - 1,
-                    "emoji": NOT_PRESSED,
-                    "likedislike": "like"
+                    "liked": False,
+                    "disliked": False
                 })
             else:
                 if request.user.disliked_posts.filter(id=post_id).exists():
@@ -117,16 +113,16 @@ def like(request, post_id):
                     return JsonResponse({
                         "success": True,
                         "likes": likes + 2,
-                        "emoji": PRESSED,
-                        "likedislike": "like"
+                        "liked": True,
+                        "disliked": False
                     })
                 else:
                     request.user.liked_posts.add(post)
                     return JsonResponse({
                         "success": True,
                         "likes": likes + 1,
-                        "emoji": PRESSED,
-                        "likedislike": "like"
+                        "liked": True,
+                        "disliked": False
                     })
             
         # dislike pressed
@@ -137,8 +133,8 @@ def like(request, post_id):
                 return JsonResponse({
                     "success": True,
                     "likes": likes + 1,
-                    "emoji": NOT_PRESSED,
-                    "likedislike": "dislike"
+                    "liked": False,
+                    "disliked": False
                 })
             else:
                 if request.user.liked_posts.filter(id=post_id).exists():
@@ -147,17 +143,19 @@ def like(request, post_id):
                     return JsonResponse({
                         "success": True,
                         "likes": likes - 2,
-                        "emoji": PRESSED,
-                        "likedislike": "dislike"
+                        "liked": False,
+                        "disliked": True
                     })
                 else:
                     request.user.disliked_posts.add(post)
                     return JsonResponse({
                         "success": True,
                         "likes": likes - 1,
-                        "emoji": PRESSED,
-                        "likedislike": "dislike"
+                        "liked": False,
+                        "disliked": True
                     })
+
+                # TODO: when like/disliked pressed and user presses the other the first one stays visualy pressed
 
     return JsonResponse({
         "success": False

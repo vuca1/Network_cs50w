@@ -80,7 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(result => {
                 if (result.success) {
                     document.querySelector(`#likes-count-${post_id}`).textContent = result.likes;
-                    document.querySelector(`#${result.likedislike}-button-${post_id}`).innerHTML = result.emoji;
+
+                    // like emojis
+                    const pressed = "&#127832"
+                    const not_pressed = "&#127833"
+
+                    document.querySelector(`#like-button-${post_id}`).innerHTML = (result.liked) ? pressed : not_pressed;
+                    document.querySelector(`#dislike-button-${post_id}`).innerHTML = (result.disliked) ? pressed : not_pressed;
                 } else {
                     console.log("Could not edit likes or dislikes.")
                 }

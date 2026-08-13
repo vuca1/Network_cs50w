@@ -11,18 +11,22 @@
 
         <textarea id="text-area-{{ post.id }}" hidden>{{ post.content }}</textarea>
 
-        <small class="text-muted">{{ post.timestamp }}</small>
-
-        <div class="mb-2 h5">
+        <div class="mb-2 mt-2">
             {% if user.is_authenticated %}
-                <button id="like-button-{{ post.id }}" class="like-button like btn border-0 transparent" data-post-id="{{ post.id }}">
+                <button id="like-button-{{ post.id }}"
+                class="like-button like btn border-0 transparent"
+                data-post-id="{{ post.id }}"
+                style="font-size: 1.5rem;">
                     {% if post in request.user.liked_posts.all %}
                         &#127832
                     {% else %}
                         &#127833
                     {% endif %}
                 </button>
-                <button id="dislike-button-{{ post.id }}" class="like-button dislike btn border-0 transparent" data-post-id="{{ post.id }}" style="display: inline-block; transform: rotate(180deg);">
+                <button id="dislike-button-{{ post.id }}"
+                class="like-button dislike btn border-0 transparent"
+                data-post-id="{{ post.id }}"
+                style="display: inline-block; transform: rotate(180deg); font-size: 1.5rem;">
                     {% if post in request.user.disliked_posts.all %}
                         &#127832
                     {% else %}
@@ -30,7 +34,13 @@
                     {% endif %}
                 </button>
             {% endif %}
-            <span class="h6" id="likes-count-{{post.id}}">{{ post.likes_count }}</span>
+        </div>
+
+        <small class="text-muted">{{ post.timestamp }}</small>
+
+        <div class="h6">
+            <span class="text-muted">Score: </span>
+            <span class="text-muted" id="likes-count-{{post.id}}">{{ post.likes_count }}</span>
         </div>
 
         {% if request.user == post.author %}
