@@ -87,6 +87,83 @@ def edit_post(request, post_id):
         "success": True
     })
 
+@login_required
+def like(request, post_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        like = data["like"]
+
+        post = get_object_or_404(Post, id=post_id)
+
+        # like emojis
+        PRESSED = "&#127832"
+        NOT_PRESSED = "&#127833"
+
+        # like pressed
+        if like:
+            likes = post.likes_count
+            if request.user.liked_posts.filter(id=post_id).exists():
+                request.user.liked_posts.remove(post)
+                return JsonResponse({
+                    "success": True,
+                    "likes": likes - 1,
+                    "emoji": NOT_PRESSED,
+                    "likedislike": "like"
+                })
+            else:
+                if request.user.disliked_posts.filter(id=post_id).exists():
+                    request.user.disliked_posts.remove(post)
+                    request.user.liked_posts.add(post)
+                    return JsonResponse({
+                        "success": True,
+                        "likes": likes + 2,
+                        "emoji": PRESSED,
+                        "likedislike": "like"
+                    })
+                else:
+                    request.user.liked_posts.add(post)
+                    return JsonResponse({
+                        "success": True,
+                        "likes": likes + 1,
+                        "emoji": PRESSED,
+                        "likedislike": "like"
+                    })
+            
+        # dislike pressed
+        else:
+            likes = post.likes_count
+            if request.user.disliked_posts.filter(id=post_id).exists():
+                request.user.disliked_posts.remove(post)
+                return JsonResponse({
+                    "success": True,
+                    "likes": likes + 1,
+                    "emoji": NOT_PRESSED,
+                    "likedislike": "dislike"
+                })
+            else:
+                if request.user.liked_posts.filter(id=post_id).exists():
+                    request.user.liked_posts.remove(post)
+                    request.user.disliked_posts.add(post)
+                    return JsonResponse({
+                        "success": True,
+                        "likes": likes - 2,
+                        "emoji": PRESSED,
+                        "likedislike": "dislike"
+                    })
+                else:
+                    request.user.disliked_posts.add(post)
+                    return JsonResponse({
+                        "success": True,
+                        "likes": likes - 1,
+                        "emoji": PRESSED,
+                        "likedislike": "dislike"
+                    })
+
+    return JsonResponse({
+        "success": False
+    })
+        
+
 
 @login_required
 def create_post(request):

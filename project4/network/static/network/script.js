@@ -52,7 +52,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 });
             }
+        } else if (element.classList.contains('like-button')) {
+            // like and dislike function
+            const post_id = element.dataset.postId;
+            const url = `/like/${post_id}`
+            const csrfToken = document.querySelector('meta[name="csrf_token"]').content;
+            var like = true;
+
+            // like or dislike
+            if (element.classList.contains('like')) {
+                like = true;
+            } else if (element.classList.contains('dislike')) {
+                like = false
+            }
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({
+                    like: like
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    document.querySelector(`#likes-count-${post_id}`).textContent = result.likes;
+                    document.querySelector(`#${result.likedislike}-button-${post_id}`).innerHTML = result.emoji;
+                } else {
+                    console.log("Could not edit likes or dislikes.")
+                }
+            });
         }
-            
     });
 });

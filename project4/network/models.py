@@ -14,6 +14,12 @@ class User(AbstractUser):
         related_name="liked_by"
     )
 
+    disliked_posts = models.ManyToManyField(
+        "Post",
+        blank=True,
+        related_name="disliked_by"
+    )
+
     @property
     def followers_count(self):
         return self.followed_by.count()
@@ -36,4 +42,4 @@ class Post(models.Model):
     
     @property
     def likes_count(self):
-        return self.liked_by.count()
+        return self.liked_by.count() - self.disliked_by.count()

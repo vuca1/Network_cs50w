@@ -13,7 +13,25 @@
 
         <small class="text-muted">{{ post.timestamp }}</small>
 
-        <p>&#127833 {{ post.likes_count }}</p>
+        <div class="mb-2 h5">
+            {% if user.is_authenticated %}
+                <button id="like-button-{{ post.id }}" class="like-button like btn border-0 transparent" data-post-id="{{ post.id }}">
+                    {% if post in request.user.liked_posts.all %}
+                        &#127832
+                    {% else %}
+                        &#127833
+                    {% endif %}
+                </button>
+                <button id="dislike-button-{{ post.id }}" class="like-button dislike btn border-0 transparent" data-post-id="{{ post.id }}" style="display: inline-block; transform: rotate(180deg);">
+                    {% if post in request.user.disliked_posts.all %}
+                        &#127832
+                    {% else %}
+                        &#127833
+                    {% endif %}
+                </button>
+            {% endif %}
+            <span class="h6" id="likes-count-{{post.id}}">{{ post.likes_count }}</span>
+        </div>
 
         {% if request.user == post.author %}
             <button
